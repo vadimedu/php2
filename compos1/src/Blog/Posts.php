@@ -2,11 +2,12 @@
 
 namespace GeekBrains\LevelTwo\Blog;
 
+use GeekBrains\LevelTwo\User\User;
+
 Class Posts {
     private string $title;
     private string $text;
     private int $authorId;
-    private int $postId;
 
     public function setTitle($title) {
         $this->title = $title;
@@ -26,9 +27,9 @@ Class Posts {
     public function getAuthorId() {
         return $this->authorId;
     }
-    public function setPostId($idPost) {
-        $this->postId = $idPost;
-    }
+    // public function setPostId($idPost) {
+    //     $this->postId = $idPost;
+    // }
     public function getPostId() {
         return $this->postId;
     }
