@@ -1,0 +1,18 @@
+{
+    "name": "geekbrains/level_two",
+    "autoload": {
+        "psr-4": {
+            "GeekBrains\\LevelTwo\\": "src/"
+
+        }
+    },
+    "authors": [
+        {
+            "name": "Vadimedu",
+            "email": "vadimedu@yandex.ru"
+        }
+    ],
+    "require": {
+        "fakerphp/faker": "^1.21"
+    }
+}
