@@ -27,9 +27,9 @@ Class Posts {
     public function getAuthorId() {
         return $this->authorId;
     }
-    // public function setPostId($idPost) {
-    //     $this->postId = $idPost;
-    // }
+    public function setPostId($idPost) {
+        $this->postId = $idPost;
+    }
     public function getPostId() {
         return $this->postId;
     }

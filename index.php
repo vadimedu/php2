@@ -4,12 +4,13 @@ require_once __DIR__ . '/vendor/autoload.php';
 use GeekBrains\LevelTwo\User\User;
 use GeekBrains\LevelTwo\Blog\Posts;
 use GeekBrains\LevelTwo\Blog\Comments;
+use GeekBrains\LevelTwo\Blog\Likes;
 use GeekBrains\LevelTwo\Repositories\SqliteUsersRepository;
 use GeekBrains\LevelTwo\Repositories\SqlitePostsRepository;
 use GeekBrains\LevelTwo\Repositories\SqliteCommentsRepository;
+use GeekBrains\LevelTwo\Repositories\SqliteLikesRepository;
 
 $faker = Faker\Factory::create('ru_RU');
-
 $di = new User();
 $di->setFirstName($faker->firstName());
 $di->setLastName($faker->lastName());
@@ -23,8 +24,8 @@ $console_arg = str_replace('_', ' ', $argv[1]);
 
 $connection = new PDO('sqlite:' . __DIR__ . '/blog.sqlite');
 
-$repo = new SqliteUsersRepository();
-$repo->save($di, $connection);
+// $repo = new SqliteUsersRepository();
+// $repo->save($di, $connection);
 // $repoPost = new SqlitePostsRepository();
 // $repoPost->save1($postObject, $connection);
 // $repoPost->getPost($di->getId(), $connection);
@@ -41,5 +42,13 @@ if($_SERVER['REQUEST_URI'] && $_POST){
     // var_dump($newPostObject);
    $saveNewPost = new SqlitePostsRepository();
    $saveNewPost->saveFromCurl($newPostObject, $connection);
+
+
 }
+    $likeObject = new Likes();
+   $likeObject->setAuthorId(2);
+   $likeObject->setPostId(20);
+   $saveNewLike = new SqliteLikesRepository();
+   var_dump($saveNewLike);
+   var_dump($saveNewLike->save2($likeObject, $connection));
 ?>
