@@ -20,27 +20,29 @@ $log->warning('Foo');
 $log->error('Bar');
 
 $faker = Faker\Factory::create('ru_RU');
-$di = new User();
-$di->setFirstName($faker->firstName());
-$di->setLastName($faker->lastName());
-$di->setId($faker->unique()->randomNumber());
+$userCreate = new User();
+$userCreate->setFirstName($faker->firstName());
+$userCreate->setLastName($faker->lastName());
+$userCreate->setPass('1234');
+$userCreate->setId($faker->unique()->randomNumber());
 $postObject = new Posts();
 $postObject->setTitle('Новый пост');
 $postObject->setText('Здесь контент поста!');
-$postObject->setAuthorId($di->getId());
+$postObject->setAuthorId($userCreate->getId());
 
 $console_arg = str_replace('_', ' ', $argv[1]);
 
 $connection = new PDO('sqlite:' . __DIR__ . '/blog.sqlite');
 
-// $repo = new SqliteUsersRepository();
-// $repo->save($di, $connection);
+$repo = new SqliteUsersRepository();
+$repo->save($userCreate, $connection);
+$repo->getUser('110', $connection);
 // $repoPost = new SqlitePostsRepository();
 // $repoPost->save1($postObject, $connection);
 // $repoPost->getPost($di->getId(), $connection);
 $commentObj = new Comments();
 $commentObj->setText('Комментарий к этой статье');
-$commentObj->setAuthorId($di->getId());
+$commentObj->setAuthorId($userCreate->getId());
 $commentObj->setPostId(5);
 $repoComments = new SqliteCommentsRepository();
 $repoComments->saveComment($commentObj, $connection);
