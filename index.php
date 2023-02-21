@@ -9,6 +9,15 @@ use GeekBrains\LevelTwo\Repositories\SqliteUsersRepository;
 use GeekBrains\LevelTwo\Repositories\SqlitePostsRepository;
 use GeekBrains\LevelTwo\Repositories\SqliteCommentsRepository;
 use GeekBrains\LevelTwo\Repositories\SqliteLikesRepository;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
+
+$log = new Logger('name');
+$logInfo = new Logger('infoLikes');
+$log->pushHandler(new StreamHandler(dirname(__FILE__).'/warning.log', Logger::WARNING));
+$log->warning('Foo');
+$log->error('Bar');
 
 $faker = Faker\Factory::create('ru_RU');
 $di = new User();
@@ -46,9 +55,11 @@ if($_SERVER['REQUEST_URI'] && $_POST){
 
 }
     $likeObject = new Likes();
-   $likeObject->setAuthorId(2);
+   $likeObject->setAuthorID(2);
    $likeObject->setPostId(20);
+   echo $likeObject->getAuthorID(2);
+   echo $likeObject->getPostId(20);
    $saveNewLike = new SqliteLikesRepository();
-   var_dump($saveNewLike);
-   var_dump($saveNewLike->save2($likeObject, $connection));
+//    var_dump($saveNewLike);
+   $saveNewLike->save2($likeObject, $connection, $logInfo);
 ?>
