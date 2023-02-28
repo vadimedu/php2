@@ -4,6 +4,7 @@ namespace GeekBrains\LevelTwo\Repositories;
 
 use GeekBrains\LevelTwo\User\User;
 use GeekBrains\LevelTwo\Blog\Posts;
+use GeekBrains\LevelTwo\Repositories\SqliteUsersRepository;
 use PDO;
 
 class SqlitePostsRepository
@@ -48,21 +49,25 @@ class SqlitePostsRepository
         var_dump($this->connection1);
         var_dump($post);
         $value = array_values($post);
-        var_dump($value[0]);
-        var_dump($value[1]);
-        var_dump($value[2]);
-        $statement1 = $this->connection1->prepare(
+        $passUser = $value[1];
+        $connectUser = new SqliteUsersRepository();
+        $currentUser = $connectUser->getUser('104', $connection);
 
-            'INSERT INTO posts (id_author, title, content)
-            VALUES (:id_author, :title, :content)'
-            );
+            if($passUser === $currentUser['password']){
+                echo 'Привет из блока сохранения поста';
+                $statement1 = $this->connection1->prepare(
 
-            $statement1->execute([
-            ':title' => $value[1],
-            ':content' => $value[2],
-            ':id_author' => $value[0],
-            ]);
+                'INSERT INTO posts (id_author, title, content)
+                VALUES (:id_author, :title, :content)'
+                );
+
+                $statement1->execute([
+                ':title' => $value[2],
+                ':content' => $value[3],
+                ':id_author' => $value[0],
+                ]);
+            } else echo 'Видимо нет такого пользователя или пароли не совпали. Отказано в создании поста', "\n";
+        }
+
 
     }
-
-}

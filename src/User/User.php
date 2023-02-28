@@ -5,6 +5,7 @@ Class User {
     private string $firstName;
     private string $lastName;
     private int $id;
+    private string $password;
 
     public function __toString()
 		{
@@ -28,5 +29,11 @@ Class User {
     }
     public function getId() {
         return $this->id;
+    }
+    public function setPass($password) {
+        $this->password = hash('sha256', $password);
+    }
+    public function getPass() {
+        return $this->password;
     }
 }
