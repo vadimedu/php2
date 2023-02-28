@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
-
+use GeekBrains\LevelTwo\Commands\CreateUser;
+use Symfony\Component\Console\Application;
 use GeekBrains\LevelTwo\User\User;
 use GeekBrains\LevelTwo\Blog\Posts;
 use GeekBrains\LevelTwo\Blog\Comments;
@@ -12,7 +13,19 @@ use GeekBrains\LevelTwo\Repositories\SqliteLikesRepository;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
-
+$application = new Application();
+$application->add(new CreateUser(new SqliteUsersRepository));
+// $commandsClasses = [
+//    CreateUser::class,
+//    ];
+//    foreach ($commandsClasses as $commandClass) {
+//    // Посредством контейнера
+//    // создаём объект команды
+//    $command = $container->get($commandClass);
+//    // Добавляем команду к приложению
+//    $application->add($command);
+//    }
+$application->run();
 $log = new Logger('name');
 $logInfo = new Logger('infoLikes');
 $log->pushHandler(new StreamHandler(dirname(__FILE__).'/warning.log', Logger::WARNING));
